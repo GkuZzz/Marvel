@@ -10,16 +10,16 @@ import mjolnir from '../../resources/img/mjolnir.png';
 
 
 class RandomChar extends Component {
-    constructor(props) {
-            super(props)
-            this.updateChar()
-    }
     state = {
         char: {},
         loading: true
     }
 
     marvelServise = new MarvelService();
+
+    componentDidMount() {
+        this.updateChar()
+    }
 
     onCharLoaded = (char) => {
         this.setState({
@@ -77,9 +77,15 @@ class RandomChar extends Component {
 
 const View = ({char}) => {
     const {thumbnail, name, description, homepage, wiki} = char;
+
+    let imgStyle = {'objectFit' : 'cover'};
+    if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg') {
+        imgStyle = {'objectFit' : 'contain'};
+    }
+
     return (
             <div className="randomchar__block">
-                <img src={thumbnail} alt="Random character" className="randomchar__img"/>
+                <img src={thumbnail} alt="Random character" className="randomchar__img" style={imgStyle}/>
                 <div className="randomchar__info">
                     <p className="randomchar__name">{name}</p>
                     <p className="randomchar__descr">
